@@ -11,7 +11,7 @@ RUN apt-get update; \
  DEBIAN_FRONTEND=noninteractive apt-get install -y sed make binutils build-essential \
  gcc g++ bash patch gzip bzip2 perl tar cpio python unzip  \
  rsync file bc wget curl libelf-dev libsystemd-dev texinfo \
- asciidoc w3m dblatex libncurses5 openssh-client \
+ asciidoc w3m dblatex libncurses5-dev openssh-client \
  git subversion rsync openjdk-8-jre; \
  apt-get clean 
 
