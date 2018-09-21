@@ -6,8 +6,14 @@ A simple set of scripts to create a container image
 for any version of buildroot with some minor 
 inconveniences removed. 
 
+BR2_DL_DIR is created and stored on the host so 
+several invocations of your container doesn't
+endup downloading packages over and over again.
+
 ##Todo
-\_pkg\_OVERRIDE\_SRCDIR
+\_pkg\_OVERRIDE\_SRCDIR - this will ensure that
+'extracted' packages can be kept some place
+and that saves time in compiling.
 
 
 ##Howto - Use dockerhub images
