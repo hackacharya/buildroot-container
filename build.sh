@@ -28,7 +28,8 @@ if [ $? -ne 0 ]; then
    exit $?
 fi
 
-docker build -t ${NAME}:${VER} .
+# docker build --no-cache=true
+docker build --no-cache=true -t ${NAME}:${VER} .
 if [ $? -eq 0 ]; then
    echo "Done and build image ${NAME}:${VER} ready."
    echo "You may use ./run.sh to start it. Or simply do: "
