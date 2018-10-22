@@ -31,6 +31,12 @@ and that saves time in compiling.
   ./run.sh
 ```
 
+##Howto - Build and run locally
+```
+  ./build.sh --push
+  ./run.sh --pull
+```
+
 ##Thanks
 To the folks at docker and buildroot.org.
 
