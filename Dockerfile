@@ -2,10 +2,13 @@ FROM ubuntu:18.04
 MAINTAINER hackacharya@gmail.com
 LABEL DESCRIPTION "A container with buildroot dependencies \
  and buildroot-2018.08. Note you may run container as follows \
- \"mkdir -p $HOME/buildroot-dl; \
- docker run -v $HOME/buildroot-dl:/BR2_DL_DIR\" -it buildroot:2018.08 \
- see run.sh from http://www.github.com/hackacharya/buildroot-container \
- See http://buildroot.org for buildroot, And for the container"
+ On the host you may \
+ git clone https://www.github.com/hackacharya/buildroot-container \
+ cd buildroot-container \
+ mkdir -p $HOME/buildroot-dl; \
+ ./run.sh --pull \
+ Env variables that the init uses are UNAME, GNAME, USRID, GRPID, HOME \
+ See http://buildroot.org for buildroot, And for the container "
 
 # https://buildroot.org/downloads/manual/manual.html#requirement-mandatory
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
