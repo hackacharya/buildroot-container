@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 cd /home/buildroot/buildroot*
 pwd
@@ -20,29 +20,45 @@ if [ "$HOME" != "" ]; then
    HOMEOPT="-d $HOME"
 fi
 
+# If GID already exists with a different change its group id
+if [ "$GRPID" != "" ]; then
+       grep  ":$GRPID:" /etc/group > /dev/null  2>&1
+       if [ $? -eq 0 ]; then
+          OLDGNAME=`cat /etc/group | grep  ":$GRPID:" | cut -d":" -f1`
+          if [ "$OLDGNAME" != "" -a "$OLDGNAME" != "$GNAME" ]; then
+            NEWGRPID=$((GRPID+2000))      # Hack, assume this doesn't exist!
+            groupmod -g $NEWGRPID $OLDGNAME 
+            echo "Moving $OLDGNAME to $NEWGRPID ... rc=$?"
+          fi
+       fi
+fi
+
+# If our group name doesn't exist create it.. and ensure it has the same id
 if [ "$GNAME" != "" -a "$GRPID" != "" ]; then
     grep -w $GNAME /etc/group >/dev/null 2>&1
     if  [ $? -eq 0 ]; then
-       groupmod -g $GRPID $GNAME 
+       groupmod -g $GRPID $GNAME
        echo "Updating group $GNAME($GRPID) ... rc=$?"
     else
        groupadd -g $GRPID $GNAME
-       echo "Created group$GNAME($GRPID) ... rc=$?"
+       echo "Creating group$GNAME($GRPID) ... rc=$?"
     fi
 fi
 
+# if your user name does not exist create it
 if [ "$UNAME" != "" -a "$USRID" != "" ]; then
      grep -w $UNAME /etc/passwd >/dev/null 2>&1
      if [ $? -eq 0 ]; then 
-        usermod $HOMEOPT -aG $GNAME
-        echo "Updated user $UNAME($USRID), $GNAME($GRPID) ... rc=$?"
+        usermod -u $USRID $HOMEOPT -aG $GNAME $UNAME
+        echo "Updating user $UNAME($USRID), $GNAME($GRPID) ... rc=$?"
      else
         useradd -u $USRID -g $GRPID -G sudo -s /bin/bash $HOMEOPT $UNAME
-        echo "Created user $UNAME($USRID), $GNAME($GRPID) ... rc=$?"
+        echo "Creating user $UNAME($USRID), $GNAME($GRPID) ... rc=$?"
      fi
 fi
 
-sudo chown -R $UNAME /home/buildroot
+echo "Preparing your files! just a minute please ..."
+sudo chown -R $USRID:$GRPID /home/buildroot
 echo
 cat << END_OF_TEXT
 * *********************************************************** *
