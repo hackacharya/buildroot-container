@@ -74,4 +74,4 @@ cat << END_OF_TEXT
 * make menuconfig  - is a good place to start
 * *********************************************************** *
 END_OF_TEXT
-exec su - $UNAME
+su - $UNAME
