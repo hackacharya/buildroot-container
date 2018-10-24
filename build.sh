@@ -55,7 +55,7 @@ docker tag ${NAME}:${VER} ${NAME}:latest
 DOCKERREPO=hackacharya
 if [ "$PUSH" == "yes" ]; then 
     docker tag ${NAME}:${VER}  $DOCKERREPO/${NAME}:${VER}
-    docker tag  $DOCKERREPO/${NAME}:${VER} $DOCKERREPO/${NAME}:latest}
+    docker tag  $DOCKERREPO/${NAME}:${VER} $DOCKERREPO/${NAME}:latest
     docker push $DOCKERREPO/${NAME}:${VER}
     docker push $DOCKERREPO/${NAME}:latest
 fi
