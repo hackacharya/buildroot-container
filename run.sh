@@ -27,7 +27,7 @@ do
       --version) VER=$2; shift 2;;
       --pull) DOCKERREPO="hackacharya/"; shift;;
       --dldir) HOST_DLDIR=$2; shift 2;;
-      --mountcache) MOUNT_OPT=":cached"; shift 1;
+      --mountcache) MOUNT_OPT=":cached"; shift 1;;
       --help) printusage; exit 0 ;;
       *) shift;;
   esac
