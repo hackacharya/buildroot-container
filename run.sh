@@ -21,11 +21,12 @@ MOUNT_OPT=""
 # See https://docs.docker.com/docker-for-mac/osxfs-caching/
 
 HOST_DLDIR=$HOME/buildroot-dl
+DOCKERREPO="hackacharya/"
 while [ $# -gt 0 ]
 do
   case $1 in
       --version) VER=$2; shift 2;;
-      --pull) DOCKERREPO="hackacharya/"; shift;;
+      --nopull) DOCKERREPO=""; shift;;
       --dldir) HOST_DLDIR=$2; shift 2;;
       --mountcache) MOUNT_OPT=":cached"; shift 1;;
       --help) printusage; exit 0 ;;
@@ -51,5 +52,9 @@ USRID=`id -u`
 GRPID=`id -g`
 GNAME=`cat /etc/group | grep  ":$GRPID:" | cut -d":" -f1`
 
+if [ "$DOCKERREPO" != "" ]; then
+    echo "Pulling buildroot container image ... "
+    docker pull ${DOCKERREPO}buildroot:$VER
+fi
 
 mkdir -p $HOST_DLDIR && docker run --env HOME=$HOME --env USRID=$USRID --env GRPID=$GRPID --env UNAME=$USER --env GNAME=$GNAME -v $HOME:${HOME}${MOUNT_OPT} -v $HOST_DLDIR:/BR2_DL_DIR${MOUNT_OPT} --rm --name buildroot-container -it ${DOCKERREPO}buildroot:$VER
